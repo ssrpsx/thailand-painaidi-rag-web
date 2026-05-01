@@ -11,7 +11,7 @@ The website also includes features such as filtering by province and category, t
 <img src="screenshot/screenshot.gif" alt="Desktop Portfolio">
 
 ## 🛠️ Tech Stack
-- Front-end: Next.js(TypeScript), React, TailwindCSS, Framer Motion
+- Front-end: Next.js (TypeScript), React, TailwindCSS, Framer Motion
 - Back-end: Next.js (Node.js/TypeScript), OpenAI SDK (Typhoon V2.5 30B LLM)
 - Database: MySQL
 
