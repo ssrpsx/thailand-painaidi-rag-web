@@ -47,4 +47,5 @@ docker compose up --build -d
 http://localhost:3000/
 ```
 
+dataset: https://datacatalog.tat.or.th/en/dataset/tourist-attraction
 *(Note: The system uses a cookie-based UUID for anonymous sessions instead of a traditional login, so you can start swiping right away!)*
