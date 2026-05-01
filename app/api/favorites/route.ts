@@ -39,7 +39,10 @@ export async function POST(request: NextRequest) {
     return Response.json({ ok: true }, {
       headers: { "Content-Type": "application/json; charset=utf-8" }
     });
-  } catch (err) {
+  } catch (err: any) {
+    if (err.message === "LIMIT_EXCEEDED") {
+      return Response.json({ error: "favorites limit exceeded" }, { status: 400, headers: { "Content-Type": "application/json; charset=utf-8" } });
+    }
     console.error("POST /api/favorites error:", err);
     return Response.json({ error: "database unavailable" }, { status: 503, headers: { "Content-Type": "application/json; charset=utf-8" } });
   }

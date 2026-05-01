@@ -51,18 +51,5 @@ export async function POST(request: NextRequest) {
     .replace(/#{1,3}\s/g, '')  // Remove headers
     .replace(/---/g, '');      // Remove horizontal rules
 
-  // Persist transcript — fire-and-forget, never block the response.
-  const lastUser = messages[messages.length - 1];
-  Promise.all([
-    execute(
-      "INSERT INTO `chat_history` (`user_id`,`role`,`content`,`sources`) VALUES (:uid,'user',:content,NULL)",
-      { uid: userId, content: lastUser.content },
-    ),
-    execute(
-      "INSERT INTO `chat_history` (`user_id`,`role`,`content`,`sources`) VALUES (:uid,'assistant',:content,:sources)",
-      { uid: userId, content: result.reply, sources: JSON.stringify(result.sources) },
-    ),
-  ]).catch(() => { /* DB not available — skip history */ });
-
   return Response.json(result);
 }

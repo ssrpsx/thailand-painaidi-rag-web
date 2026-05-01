@@ -5,19 +5,6 @@ CREATE SCHEMA `pai_nai_di`
   DEFAULT COLLATE utf8mb4_unicode_ci;
 USE `pai_nai_di`;
 
-
--- ---------------------------------------------------------------------
--- users (anonymous users — no signup, identified by a cookie UUID)
--- ---------------------------------------------------------------------
-CREATE TABLE `users` (
-    `user_id`     CHAR(36)    NOT NULL,                       -- UUID v4 from cookie
-    `created_at`  TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `last_seen`   TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP
-                              ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
 -- ---------------------------------------------------------------------
 -- places (tourist attractions)
 -- ---------------------------------------------------------------------
@@ -93,29 +80,8 @@ CREATE TABLE `favorites` (
     UNIQUE KEY `uniq_user_place` (`user_id`, `place_id`),
     KEY `idx_fav_user`  (`user_id`),
     KEY `idx_fav_place` (`place_id`),
-    CONSTRAINT `fk_fav_user`
-        FOREIGN KEY (`user_id`)  REFERENCES `users`  (`user_id`)
-        ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT `fk_fav_place`
         FOREIGN KEY (`place_id`) REFERENCES `places` (`id`)
-        ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-
--- ---------------------------------------------------------------------
--- chat_history (per-user chat history for RAG memory)
--- ---------------------------------------------------------------------
-CREATE TABLE `chat_history` (
-    `message_id` BIGINT       NOT NULL AUTO_INCREMENT,
-    `user_id`    CHAR(36)     NOT NULL,
-    `role`       ENUM('user','assistant','system') NOT NULL,
-    `content`    MEDIUMTEXT   NOT NULL,
-    `sources`    JSON         NULL,                           -- [{place_id, title}, ...]
-    `created_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`message_id`),
-    KEY `idx_chat_user_time` (`user_id`, `created_at`),
-    CONSTRAINT `fk_chat_user`
-        FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
         ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

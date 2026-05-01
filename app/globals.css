@@ -64,6 +64,7 @@ input, textarea, select { font: inherit; color: inherit; }
   min-height: 0;
   width: 100%;
   margin-inline: auto;
+  padding-top: var(--header-h);
 }
 
 /* ─────────────────────────── BRAND ─────────────────────────── */
@@ -117,12 +118,12 @@ input, textarea, select { font: inherit; color: inherit; }
   justify-content: space-between;
   background: var(--surface);
   border-bottom: 1px solid var(--line);
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 5;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  padding-inline: max(16px, calc(100vw - 100% + 16px));
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding-inline: max(16px, calc((100vw - 100%) / 2 + 16px));
 }
 .app-header .right {
   display: flex;

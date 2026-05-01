@@ -62,6 +62,21 @@ export async function listFavoritePlaceIds(userId: string): Promise<number[]> {
 }
 
 export async function addFavorite(userId: string, placeId: number, note?: string | null): Promise<void> {
+  const existing = await query<RowDataPacket[]>(
+    "SELECT 1 FROM favorites WHERE user_id = :uid AND place_id = :pid",
+    { uid: userId, pid: placeId }
+  );
+  
+  if (existing.length === 0) {
+    const countRow = await query<RowDataPacket[]>(
+      "SELECT COUNT(*) as count FROM favorites WHERE user_id = :uid",
+      { uid: userId }
+    );
+    if (countRow[0].count >= 5) {
+      throw new Error("LIMIT_EXCEEDED");
+    }
+  }
+
   await execute(
     "INSERT INTO favorites (user_id, place_id, note) VALUES (:uid, :pid, :note) " +
     "ON DUPLICATE KEY UPDATE note = COALESCE(VALUES(note), note)",

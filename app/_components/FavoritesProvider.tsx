@@ -44,14 +44,26 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
 
   const add = useCallback(
     async (placeId: number) => {
-      await fetch("/api/favorites", {
+      if (favorites.length >= 5) {
+        alert("เต็ม 5 สถานที่แล้ว! กรุณาลบสถานที่เดิมออกก่อน เพื่อเพิ่มสถานที่ใหม่นะคะ");
+        return;
+      }
+
+      const res = await fetch("/api/favorites", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ placeId }),
       });
+      
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        if (data.error === "favorites limit exceeded") {
+          alert("เต็ม 5 สถานที่แล้ว! กรุณาลบสถานที่เดิมออกก่อน เพื่อเพิ่มสถานที่ใหม่นะคะ");
+        }
+      }
       await refresh();
     },
-    [refresh],
+    [favorites, refresh],
   );
 
   const remove = useCallback(

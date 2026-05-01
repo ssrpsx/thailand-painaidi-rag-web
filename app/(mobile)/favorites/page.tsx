@@ -16,6 +16,7 @@ export default function FavoritesPage() {
 
   const [editTarget, setEditTarget] = useState<number | null>(null);
   const [editText, setEditText] = useState("");
+  const [showConfirmClear, setShowConfirmClear] = useState(false);
 
   // Filter chips are derived from the favorites (no extra API call).
   const provinces = useMemo(
@@ -55,12 +56,7 @@ export default function FavoritesPage() {
             <span className="badge">{favorites.length} รายการ</span>
             <button 
               className="text-xs text-red-500 bg-red-500/10 px-2 py-1 rounded"
-              onClick={() => {
-                if (window.confirm("คุณต้องการลบรายการโปรดและประวัติการแชททั้งหมดใช่หรือไม่?")) {
-                  clearAll();
-                  localStorage.removeItem("chatHistory");
-                }
-              }}
+              onClick={() => setShowConfirmClear(true)}
             >
               ล้างข้อมูล
             </button>
@@ -149,7 +145,32 @@ export default function FavoritesPage() {
             />
             <div className="modal-actions">
               <button className="ghost" onClick={() => setEditTarget(null)}>ยกเลิก</button>
-              <button className="primary" onClick={saveNote}>บันทึก</button>
+              <button className="chip active" onClick={saveNote}>บันทึก</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showConfirmClear && (
+        <div className="modal-back" onClick={() => setShowConfirmClear(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h3 style={{ color: 'var(--ink)' }}>ยืนยันการล้างข้อมูล</h3>
+            <p style={{ marginTop: '8px', fontSize: '14px', color: 'var(--ink-soft)' }}>
+              คุณต้องการลบรายการโปรดและประวัติการแชททั้งหมดใช่หรือไม่? (ไม่สามารถกู้คืนได้)
+            </p>
+            <div className="modal-actions" style={{ marginTop: '16px' }}>
+              <button className="chip outline" onClick={() => setShowConfirmClear(false)}>ยกเลิก</button>
+              <button 
+                className="chip active" 
+                style={{ background: 'var(--rose)', borderColor: 'var(--rose)', color: '#fff' }}
+                onClick={() => {
+                  clearAll();
+                  localStorage.removeItem("chatHistory");
+                  setShowConfirmClear(false);
+                }}
+              >
+                ยืนยันลบ
+              </button>
             </div>
           </div>
         </div>
