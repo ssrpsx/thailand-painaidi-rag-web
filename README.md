@@ -1,136 +1,50 @@
-# ไปไหนดี · Thailand Tourist RAG Web
+# ไปไหนดี (Pai Nai Di)
+This project is part of a 24hr hackathon of the SuperAI Engineer Season 6 (SS6) program. The task is to develop a website to solve a real problem that I personally encountered.
 
-เว็บแอปแนะนำสถานที่ท่องเที่ยวไทย แบบ "ปัดซ้าย-ปัดขวา" เหมือน Tinder
-+ แชทบอท RAG ที่ตอบจาก "รายการโปรด" ของผู้ใช้
+My pain point is that planning a trip in Thailand can be incredibly overwhelming. With so many provinces, attractions, and options, I often find myself with hundreds of open tabs, reading endless reviews, and still struggling to piece together a coherent itinerary. The sheer volume of generic information makes it difficult to decide where to go, leading to "analysis paralysis" and a lot of wasted time.
 
-> 📐 อ่านโครงสร้าง / API / RAG seam เต็มๆ ได้ที่ [`PLAN.md`](./PLAN.md)
-> 🤖 คนทำส่วน RAG เริ่มที่ [`app/_rag/README.md`](./app/_rag/README.md)
+Based on this problem I developed *ไปไหนดี (Pai Nai Di)*, a Tinder-style swipeable travel recommendation web application integrated with a smart RAG (Retrieval-Augmented Generation) AI. The system simulates a dating app experience but for tourist attractions. Users can discover places, swipe right to add them to their favorites, and swipe left to skip. 
 
----
+The website also includes features such as filtering by province and category, taking personalized notes on favorite locations, one-click Google Maps navigation, and most importantly, an integrated AI Travel Companion. The AI specifically reads from the user's customized "favorites list" to intelligently answer questions, suggest 1-day trip plans, and provide personalized travel advice based exclusively on the places the user genuinely likes.
 
-## Stack
+## PC & Mobile Showcase (Responsive Supported)
+<img src="screenshot/screenshot.gif" alt="Desktop Portfolio">
 
-- **Next.js 16** (App Router, Turbopack ดีฟอลต์)
-- **React 19.2** + **framer-motion** (การ์ดปัด)
-- **MySQL 8** + **mysql2** (ชื่อตาราง/คอลัมน์เป็นภาษาไทยตามสเปค)
-- **TypeScript 5**
-- mobile-first CSS, max-width 480px, ใช้ใน desktop ก็ได้
+## 🛠️ Tech Stack
+- Front-end: Next.js 16 (TypeScript), React 19, TailwindCSS v4, Framer Motion
+- Back-end: Next.js API Routes (Node.js/TypeScript), OpenAI SDK (Typhoon V2.5 30B LLM)
+- Database: MySQL 8
 
----
+## Installation With docker
 
-## ขั้นตอนรันครั้งแรก
+### 1. Open Docker Desktop
+```
+Make sure Docker Desktop is running on your machine.
+```
 
-### 1) ติดตั้ง dependencies
-
+### 2. Git clone this repo
 ```bash
-npm install
+git clone https://github.com/ssrpsx/thailand-painaidi-rag-web.git
 ```
 
-(เพิ่ม `mysql2` ลง `package.json` ไว้ให้แล้ว — ครั้งแรกหลัง pull ต้องรัน install)
-
-### 2) ตั้ง MySQL
-
-ติดตั้ง MySQL 8 ในเครื่อง (หรือใช้ Docker, XAMPP, MAMP ก็ได้) แล้วรันสคีมา:
-
+### 3. Move to the project directory
 ```bash
-# จากโฟลเดอร์โปรเจค
-mysql -u root -p < db/schema.sql
+cd thailand-painaidi-rag-web
 ```
 
-จะได้ schema ชื่อ `pai_nai_di` พร้อมตาราง:
-
-- `ผู้ใช้`
-- `เเหล่งท่องเที่ยว`
-- `รูปภาพ`
-- `รายการโปรด`
-- `ประวัติเเชท`
-
-ตอนนี้ตารางว่าง — ถ้าจะเทสต์ FE ให้เพิ่ม row อย่างน้อย 2-3 แถว
-หรือรอให้ทีม data import dataset จริง
-
-### 3) ตั้งค่า environment
-
+### 4. Build docker compose
 ```bash
-cp .env.example .env.local
+docker compose up --build -d
 ```
 
-แล้วแก้ `.env.local`:
-
-```env
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=yourpassword
-DB_NAME=pai_nai_di
-
-# จะเชื่อม LLM ทีหลังก็ได้ — ระบบจะ fallback เป็น mock อัตโนมัติ
-LLM_PROVIDER=mock
+### 5. Waiting until to see this in docker logs
+```
+✓ Ready in ...
 ```
 
-### 4) รันเว็บ (เป็นทั้ง backend + frontend ในตัวเดียว)
-
+### 6. Open the website in your browser
 ```bash
-npm run dev
+http://localhost:3000/
 ```
 
-เปิด <http://localhost:3000> — จะ redirect ไป `/discover`
-ถ้าจะลองในมือถือ ให้ใช้ DevTools mobile mode หรือเข้าจาก IP เครื่อง:
-
-```bash
-# เครื่อง dev อยู่ที่ 192.168.1.10 → จากมือถือเข้า
-http://192.168.1.10:3000
-```
-
-> **Tip**: Next 16 ใช้ Turbopack แล้ว — ครั้งแรก compile ช้านิด แต่ hot reload เร็วมาก
-
-### 5) รัน production
-
-```bash
-npm run build
-npm run start
-```
-
----
-
-## โครงสร้างหน้า
-
-| URL          | คำอธิบาย                                                                  |
-| ------------ | ------------------------------------------------------------------------- |
-| `/`          | redirect → `/discover`                                                    |
-| `/discover`  | ปัดซ้าย-ขวาเลือกสถานที่ (กรอง: ประเภท / จังหวัด)                            |
-| `/favorites` | รายการที่ปัดขวา + ค้นหา + กรอง + บันทึกโน้ต + ปุ่มเปิด Google Maps         |
-| `/chat`      | RAG แชทบอท ตอบจาก "รายการโปรด" ของ user เท่านั้น                           |
-
----
-
-## สำหรับนักพัฒนาแต่ละบทบาท
-
-### 🎨 Frontend
-แก้ที่ `app/(mobile)/**` และ `app/_components/**`
-state กลาง = `useFavorites()` hook ใน `_components/FavoritesProvider.tsx`
-
-### 🛠 Backend / API
-- API endpoints อยู่ใน `app/api/**`
-- DB helpers อยู่ใน `app/_lib/**`
-- เพิ่มคอลัมน์ใหม่ → แก้ `db/schema.sql` + `_lib/places.ts` + `_lib/types.ts`
-
-### 🤖 RAG / AI
-- จุดเดียวที่ต้องแก้: `app/_rag/index.ts` (ฟังก์ชัน `callLLM()`)
-- ดูคู่มือเต็มที่ [`app/_rag/README.md`](./app/_rag/README.md)
-- ระบบจะ fallback ไปโหมด mock ถ้ายังไม่ได้ใส่ API key
-
----
-
-## Troubleshooting
-
-**`Error: Access denied for user 'root'@'localhost'`**
-ตั้ง `DB_USER` / `DB_PASSWORD` ใน `.env.local` ให้ตรง ทดสอบใน mysql client ก่อน
-
-**`Unknown database 'pai_nai_di'`**
-ยังไม่ได้รัน `db/schema.sql` — ทำตามขั้นตอนที่ 2
-
-**Cookie ไม่บันทึก / favorite หาย**
-ถ้าใช้งานข้าม device จะนับเป็นคนละ user (เพราะไม่มี login)
-ตั้ง `DEV_USER_ID=some-uuid` ใน `.env.local` ระหว่าง dev จะใช้ id เดียวตลอด
-
-
+*(Note: The system uses a cookie-based UUID for anonymous sessions instead of a traditional login, so you can start swiping right away!)*

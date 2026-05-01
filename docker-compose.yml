@@ -30,5 +30,22 @@ services:
       retries: 5
       start_period: 30s
 
+  web:
+    build: .
+    container_name: thailand_rag_web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_USER=${DB_USER:-appuser}
+      - DB_PASSWORD=${DB_PASSWORD:-appsecret}
+      - DB_NAME=${DB_NAME:-pai_nai_di}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    depends_on:
+      db:
+        condition: service_healthy
+
 volumes:
   db_data:
