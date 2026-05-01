@@ -1,0 +1,1 @@
+const mysql = require('mysql2/promise'); async function main() { const conn = await mysql.createConnection({host: 'localhost', port: 3307, user: 'appuser', password: 'CSS222', database: 'pai_nai_di', charset: 'utf8mb4'}); const [rows] = await conn.execute('SELECT name_th, type FROM places LIMIT 1'); console.log(rows); conn.end(); } main();  

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npx tsc *)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Pattama\\OneDrive\\Documents\\GitHub\\thailand-tourist-rag-web\\app\\api\\places"
+    ]
+  }
+}
