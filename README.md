@@ -7,8 +7,11 @@ Based on this problem I developed *ไปไหนดี (Pai Nai Di)*, a Tinder
 
 The website also includes features such as filtering by province and category, taking personalized notes on favorite locations, one-click Google Maps navigation, and most importantly, an integrated AI Travel Companion. The AI specifically reads from the user's customized "favorites list" to intelligently answer questions, suggest 1-day trip plans, and provide personalized travel advice based exclusively on the places the user genuinely likes.
 
+## System Structure
+<img src="forREADME/system_structure.png" alt="Sstem Structure">
+
 ## PC & Mobile Showcase (Responsive Supported)
-<img src="screenshot/screenshot.gif" alt="Desktop Portfolio">
+<img src="forREADME/screenshot.gif" alt="Desktop Portfolio">
 
 ## 🛠️ Tech Stack
 - Front-end: Next.js (TypeScript), React, TailwindCSS, Framer Motion
