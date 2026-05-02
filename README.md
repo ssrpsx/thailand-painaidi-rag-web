@@ -22,20 +22,21 @@ The website also includes features such as filtering by province and category, t
 Make sure Docker Desktop is running on your machine.
 ```
 
-### 2. Download Image Dataset (Important!)
-Due to file size limits, the image dataset is hosted externally.
-1. Download `data.zip` from your Google Drive link (Check `.env.example` or ask the repository owner for the link).
-2. Place the downloaded `data.zip` inside the `db/` folder of this project before proceeding.
-
-### 3. Git clone this repo
+### 2. Git clone this repo
 ```bash
 git clone https://github.com/ssrpsx/thailand-painaidi-rag-web.git
 ```
 
-### 4. Move to the project directory
+### 3. Move to the project directory
 ```bash
 cd thailand-painaidi-rag-web
 ```
+
+### 4. Download Image Dataset (Important!)
+Due to file size limits, the image dataset is hosted externally.
+*(Note: Without this dataset, the application will still work but **NO images** will be displayed.)*
+1. Download `data.zip` from your Google Drive link (Check `.env.example` or ask the repository owner for the link).
+2. Place the downloaded `data.zip` inside the `db/` folder of this project before proceeding.
 
 ### 5. Build docker compose
 ```bash

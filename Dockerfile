@@ -22,7 +22,8 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN apk add --no-cache unzip
 RUN if [ -f db/data.zip ]; then \
       unzip -q db/data.zip -d /tmp/data \
-      && mv /tmp/data/img public/img \
+      && mkdir -p public/img \
+      && cp -r /tmp/data/img/* public/img/ \
       && rm -rf /tmp/data; \
     else \
       echo "No db/data.zip found. Skipping image extraction."; \
