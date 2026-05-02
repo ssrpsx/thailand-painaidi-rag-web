@@ -19,6 +19,15 @@ COPY . .
 # Next.js telemetry is disabled
 ENV NEXT_TELEMETRY_DISABLED=1
 
+RUN apk add --no-cache unzip
+RUN if [ -f db/data.zip ]; then \
+      unzip -q db/data.zip -d /tmp/data \
+      && mv /tmp/data/img public/img \
+      && rm -rf /tmp/data; \
+    else \
+      echo "No db/data.zip found. Skipping image extraction."; \
+    fi
+
 RUN npm run build
 
 # Production image, copy all the files and run next

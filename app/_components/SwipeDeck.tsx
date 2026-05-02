@@ -239,7 +239,7 @@ function CardArt({ place }: { place: PlaceCardSummary }) {
   const cover = place.cover || `https://source.unsplash.com/800x1200/?thailand,${encodeURIComponent(place.type || "travel")},${place.id}`;
   return (
     <>
-      <div className="photo" style={{ backgroundImage: `url(${cover})` }} />
+      <div className="photo" style={{ backgroundImage: `url("${encodeURI(cover)}")` }} />
       <div className="meta">
         <div className="meta-head">
           <h2>{place.nameTh}</h2>

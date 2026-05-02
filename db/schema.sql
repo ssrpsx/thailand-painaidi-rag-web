@@ -23,7 +23,7 @@ CREATE TABLE `places` (
     `type`              VARCHAR(100) NULL,                    -- main category (ธรรมชาติ / วัฒนธรรม / ผจญภัย ...)
     `subtype`           VARCHAR(100) NULL,
     `contact_info`      TEXT         NULL,
-    `phone`             VARCHAR(50)  NULL,
+    `phone`             VARCHAR(255) NULL,
     `email`             VARCHAR(255) NULL,
     `website`           VARCHAR(500) NULL,
     `facebook`          VARCHAR(500) NULL,

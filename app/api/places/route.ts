@@ -23,7 +23,8 @@ export async function GET(request: NextRequest) {
     return Response.json({ places }, {
       headers: { "Content-Type": "application/json; charset=utf-8" }
     });
-  } catch {
+  } catch (err) {
+    console.error("Database query failed:", err);
     if (sp.has("facets")) return Response.json({ provinces: [], types: [] }, {
       headers: { "Content-Type": "application/json; charset=utf-8" }
     });

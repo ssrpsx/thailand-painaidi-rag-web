@@ -11,9 +11,9 @@ The website also includes features such as filtering by province and category, t
 <img src="screenshot/screenshot.gif" alt="Desktop Portfolio">
 
 ## 🛠️ Tech Stack
-- Front-end: Next.js 16 (TypeScript), React 19, TailwindCSS v4, Framer Motion
-- Back-end: Next.js API Routes (Node.js/TypeScript), OpenAI SDK (Typhoon V2.5 30B LLM)
-- Database: MySQL 8
+- Front-end: Next.js (TypeScript), React, TailwindCSS, Framer Motion
+- Back-end: Next.js (Node.js/TypeScript), OpenAI SDK (Typhoon V2.5 30B LLM)
+- Database: MySQL
 
 ## Installation With docker
 
@@ -47,4 +47,5 @@ docker compose up --build -d
 http://localhost:3000/
 ```
 
+dataset: https://datacatalog.tat.or.th/en/dataset/tourist-attraction <br>
 *(Note: The system uses a cookie-based UUID for anonymous sessions instead of a traditional login, so you can start swiping right away!)*

@@ -38,7 +38,7 @@ services:
       - "3000:3000"
     environment:
       - DB_HOST=db
-      - DB_PORT=${DB_PORT:-3306}
+      - DB_PORT=3306
       - DB_USER=${DB_USER:-appuser}
       - DB_PASSWORD=${DB_PASSWORD:-appsecret}
       - DB_NAME=${DB_NAME:-pai_nai_di}

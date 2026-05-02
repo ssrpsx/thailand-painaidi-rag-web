@@ -106,7 +106,7 @@ export default function FavoritesPage() {
               const cover = f.place.cover || `https://source.unsplash.com/200x200/?thailand,${encodeURIComponent(f.place.type || "travel")},${f.place.id}`;
               return (
                 <li key={f.favoriteId} className="fav-item">
-                  <div className="thumb" style={{ backgroundImage: `url(${cover})` }} />
+                  <div className="thumb" style={{ backgroundImage: `url("${encodeURI(cover)}")` }} />
                   <div className="body">
                     <h3>{f.place.nameTh}</h3>
                     <div className="sub"><IconMapPin size={14} /> {f.place.province || "-"} · {f.place.type || "ไม่ระบุ"}</div>
