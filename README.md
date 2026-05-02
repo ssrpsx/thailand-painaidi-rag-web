@@ -33,6 +33,7 @@ cd thailand-painaidi-rag-web
 ```
 
 ### 4. Download Image Dataset (Important!)
+link: https://drive.google.com/file/d/1Fumnsp2O3YvyFSvcGczNP5eg-EpydMgj/view?usp=sharing
 Due to file size limits, the image dataset is hosted externally.
 *(Note: Without this dataset, the application will still work but **NO images** will be displayed.)*
 1. Download `data.zip` from your Google Drive link (Check `.env.example` or ask the repository owner for the link).
